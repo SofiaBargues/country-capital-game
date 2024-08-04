@@ -32,7 +32,12 @@ export function Game({ data }: { data: Record<string, string> }) {
         {countries.map((name) => (
           <button
             onClick={handleClick}
-            className="flex p-2 px-4 rounded-md bg-slate-200 border border-black"
+            className={
+              "flex p-2 px-4 rounded-md bg-slate-200 border border-black" +
+              " " +
+              (selected1 == name ? " bg-lime-600 border " : "") +
+              (selected == name ? " bg-lime-600 border " : "")
+            }
           >
             {name}
           </button>
