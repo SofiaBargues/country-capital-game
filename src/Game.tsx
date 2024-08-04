@@ -2,9 +2,10 @@ import { useState } from "react";
 
 export function Game({ data }: { data: Record<string, string> }) {
   const arrData = Object.entries(data).flat();
-  const shuffledArray = arrData.sort(() => 0.5 - Math.random());
+  const shuffledArray = () => arrData.sort(() => 0.5 - Math.random());
   let [selected, setSelected] = useState("");
   let [selected1, setSelected1] = useState("");
+  let [countries, setCountries] = useState(shuffledArray);
 
   function isCorrect([selected, selected1]: string[]) {
     if (selected == data[selected1] || selected1 == data[selected]) {
@@ -28,7 +29,7 @@ export function Game({ data }: { data: Record<string, string> }) {
         className="text-sm
      flex gap-4 flex-wrap p-11"
       >
-        {shuffledArray.map((name) => (
+        {countries.map((name) => (
           <button
             onClick={handleClick}
             className="flex p-2 px-4 rounded-md bg-slate-200 border border-black"
