@@ -6,6 +6,12 @@ export function Game({ data }: { data: Record<string, string> }) {
   let [selected, setSelected] = useState("");
   let [selected1, setSelected1] = useState("");
 
+  function isCorrect([selected, selected1]: string[]) {
+    if (selected == data[selected1] || selected1 == data[selected]) {
+      return true;
+    }
+    return false;
+  }
   function handleClick(e) {
     if (selected == "") {
       setSelected(e.target.innerText);
@@ -13,6 +19,8 @@ export function Game({ data }: { data: Record<string, string> }) {
       setSelected1(e.target.innerText);
     }
   }
+
+  console.log(isCorrect([selected, selected1]));
 
   return (
     <div>
