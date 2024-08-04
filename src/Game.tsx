@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Game({ data }: { data: Record<string, string> }) {
   const arrData = Object.entries(data).flat();
@@ -13,14 +13,30 @@ export function Game({ data }: { data: Record<string, string> }) {
   const isError = selected != data[selected1] && selected1 != data[selected];
   const isCorrect = selected == data[selected1] || selected1 == data[selected];
 
+  useEffect(() => {
+    if (isComplete) {
+      if (isCorrect) {
+        const newCountries = countries.filter(
+          (item) => item !== selected && item !== selected1
+        );
+        setCountries(newCountries);
+      }
+      setTimeout(() => {
+        setSelected("");
+        setSelected1("");
+      }, 1000);
+    }
+  }, [isComplete, isCorrect]);
+
   console.log([selected, selected1]);
   console.log(isCorrect);
 
-  function handleClick(e) {
-    if (selected == "") {
-      setSelected(e.target.innerText);
-    } else {
-      setSelected1(e.target.innerText);
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    const value = e.target.innerText;
+    if (!selected) {
+      setSelected(value);
+    } else if (!selected1 && value !== selected) {
+      setSelected1(value);
     }
   }
 
