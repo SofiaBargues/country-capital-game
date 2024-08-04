@@ -1,5 +1,11 @@
 import DATA from "./data";
+import { Game } from "./Game";
 
 export default function App() {
-  return <main>Write your solution here</main>;
+  return (
+    <main>
+      {/* <Game data={DATA} /> */}
+      <div className="text-2xl text-cyan-700">hello</div>
+    </main>
+  );
 }
