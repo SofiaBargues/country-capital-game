@@ -40,36 +40,31 @@ export function Game({ data }: { data: Record<string, string> }) {
     }
   }
 
-  return (
-    <div>
-      <div
-        className="text-sm
-     flex gap-4 flex-wrap p-11"
-      >
-        {/* mapeo todos los paices y capitales trransformandolo en un boton  */}
-        {countries.map((name) => (
-          <button
-            onClick={handleClick}
-            className={
-              "flex p-2 px-4 rounded-md  border border-black" +
-              " " +
-              (!isComplete && selected == name
-                ? " bg-blue-500 border "
-                : isComplete &&
-                  (selected1 == name || selected == name) &&
-                  isCorrect
-                ? " bg-lime-600 border "
-                : isComplete &&
-                  (selected1 == name || selected == name) &&
-                  isError
-                ? "bg-red-700"
-                : " bg-slate-200 ")
-            }
-          >
-            {name}
-          </button>
-        ))}
-      </div>
+  return countries.length !== 0 ? (
+    <div className="text-sm flex gap-4 flex-wrap p-11">
+      {/* mapeo todos los paices y capitales trransformandolo en un boton  */}
+      {countries.map((name) => (
+        <button
+          onClick={handleClick}
+          className={
+            "flex p-2 px-4 rounded-md  border border-black" +
+            " " +
+            (!isComplete && selected == name
+              ? " bg-blue-500 border "
+              : isComplete &&
+                (selected1 == name || selected == name) &&
+                isCorrect
+              ? " bg-lime-600 border "
+              : isComplete && (selected1 == name || selected == name) && isError
+              ? "bg-red-700"
+              : " bg-slate-200 ")
+          }
+        >
+          {name}
+        </button>
+      ))}
     </div>
+  ) : (
+    <div>Congratulations!</div>
   );
 }
