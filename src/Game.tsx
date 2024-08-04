@@ -15,13 +15,13 @@ export function Game({ data }: { data: Record<string, string> }) {
 
   useEffect(() => {
     if (isComplete) {
-      if (isCorrect) {
-        const newCountries = countries.filter(
-          (item) => item !== selected && item !== selected1
-        );
-        setCountries(newCountries);
-      }
       setTimeout(() => {
+        if (isCorrect) {
+          const newCountries = countries.filter(
+            (item) => item !== selected && item !== selected1
+          );
+          setCountries(newCountries);
+        }
         setSelected("");
         setSelected1("");
       }, 1000);
@@ -32,6 +32,7 @@ export function Game({ data }: { data: Record<string, string> }) {
   console.log(isCorrect);
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    // @ts-expect-error has inner text
     const value = e.target.innerText;
     if (!selected) {
       setSelected(value);
@@ -40,7 +41,7 @@ export function Game({ data }: { data: Record<string, string> }) {
     }
   }
 
-  return countries.length !== 0 ? (
+  return countries.length != 0 ? (
     <div className="text-sm flex gap-4 flex-wrap p-11">
       {/* mapeo todos los paices y capitales trransformandolo en un boton  */}
       {countries.map((name) => (
