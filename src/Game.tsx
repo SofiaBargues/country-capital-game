@@ -66,6 +66,8 @@ export function Game({ data }: { data: Record<string, string> }) {
       ))}
     </div>
   ) : (
-    <div>Congratulations!</div>
+    <div className="bg-green-400 h-screen  flex justify-center items-center text-white text-5xl font-bold animate-pulse">
+      Congratulations!
+    </div>
   );
 }
