@@ -9,15 +9,12 @@ export function Game({ data }: { data: Record<string, string> }) {
   //Paises que siguen en juego
   const [countries, setCountries] = useState(shuffledArray);
 
-  //chequea que las opciones seleccionadas sean correctas por false o true
-  function isCorrect([nombre, nombre1]: string[]) {
-    if (nombre == data[nombre1] || nombre1 == data[nombre]) {
-      return true;
-    }
-    return false;
-  }
+  const isComplete = selected && selected1;
+  const isError = selected != data[selected1] && selected1 != data[selected];
+  const isCorrect = selected == data[selected1] || selected1 == data[selected];
+
   console.log([selected, selected1]);
-  console.log(isCorrect([selected, selected1]));
+  console.log(isCorrect);
 
   function handleClick(e) {
     if (selected == "") {
@@ -40,8 +37,16 @@ export function Game({ data }: { data: Record<string, string> }) {
             className={
               "flex p-2 px-4 rounded-md  border border-black" +
               " " +
-              (selected1 == name || selected == name
+              (!isComplete && selected == name
+                ? " bg-blue-500 border "
+                : isComplete &&
+                  (selected1 == name || selected == name) &&
+                  isCorrect
                 ? " bg-lime-600 border "
+                : isComplete &&
+                  (selected1 == name || selected == name) &&
+                  isError
+                ? "bg-red-700"
                 : " bg-slate-200 ")
             }
           >
