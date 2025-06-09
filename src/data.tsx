@@ -1,4 +1,4 @@
-const DATA = {
+const DATA:Record<string,string> = {
   India: "Delhi",
   China: "Beijing",
   Russia: "Moscow",
