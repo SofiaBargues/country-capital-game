@@ -8,9 +8,15 @@ for (const [key, val] of Object.entries(DATA)) {
 }
 
 export function Game() {
-  const [allNames, setAllNames] = useState(names);
+  const [allNames, setAllNames] = useState(() =>
+    
+    names.sort(() => Math.random() - 0.5)
+  );
   const [pair, setPair] = useState(["", ""]);
   const [first, second] = pair;
+  const isMatch =
+    (first in DATA && DATA[first] === second) ||
+    (second in DATA && DATA[second] === first);
 
   console.log(pair);
   console.log(allNames);
@@ -19,10 +25,7 @@ export function Game() {
     if (first === "" || second === "") return;
 
     const timer = setTimeout(() => {
-      if (
-        (first in DATA && DATA[first] === second) ||
-        (second in DATA && DATA[second] === first)
-      ) {
+      if (isMatch) {
         setAllNames(allNames.filter((x) => x !== first && x !== second));
       }
       setPair(["", ""]);
@@ -30,7 +33,7 @@ export function Game() {
     return () => {
       clearTimeout(timer);
     };
-  }, [second, first, allNames]);
+  }, [second, first, allNames, isMatch]);
 
   function handleClick(name: string) {
     const [first, second] = [...pair];
@@ -47,7 +50,15 @@ export function Game() {
       {allNames.map((name: string) => (
         <button
           key={name}
-          className={pair[0] === name || pair[1] === name ? "bg-slate-400" : ""}
+          className={
+            !pair.includes(name)
+              ? ""
+              : second === ""
+              ? "bg-slate-400"
+              : !isMatch
+              ? "bg-red-400"
+              : "bg-green-400"
+          }
           onClick={() => handleClick(name)}
         >
           {name}
