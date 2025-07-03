@@ -1,69 +1,47 @@
 import { useEffect, useState } from "react";
 import DATA from "./data";
 
-const names: string[] = [];
-for (const [key, val] of Object.entries(DATA)) {
-  names.push(key);
-  names.push(val);
+function isMatch(first: string, second: string) {
+  if (DATA[first] === second || DATA[second] === first) return true;
+  else return false;
 }
 
 export function Game() {
-  const [allNames, setAllNames] = useState(() =>
-    
-    names.sort(() => Math.random() - 0.5)
-  );
+  const [names, setNames] = useState([...Object.entries(DATA).flat()]);
   const [pair, setPair] = useState(["", ""]);
-  const [first, second] = pair;
-  const isMatch =
-    (first in DATA && DATA[first] === second) ||
-    (second in DATA && DATA[second] === first);
-
-  console.log(pair);
-  console.log(allNames);
 
   useEffect(() => {
-    if (first === "" || second === "") return;
-
-    const timer = setTimeout(() => {
-      if (isMatch) {
-        setAllNames(allNames.filter((x) => x !== first && x !== second));
+    if (pair[0] != "" && pair[1] != "") {
+      if (isMatch(pair[0], pair[1])) {
+        const first = pair[0];
+        const second = pair[1];
+        let newNames = [...names];
+        newNames = newNames.filter((x) => x != first && x != second);
+        setNames(newNames);
       }
       setPair(["", ""]);
-    }, 2000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [second, first, allNames, isMatch]);
+    }
+  }, [names, pair]);
 
-  function handleClick(name: string) {
-    const [first, second] = [...pair];
-
-    if (first === "") {
-      setPair([name, second]);
-    } else if (second === "") {
-      setPair([first, name]);
+  function handleClick(x: string) {
+    console.log(x);
+    if (pair[0] === "") {
+      const newPair = [x, ""];
+      setPair(newPair);
+    } else {
+      const newPair = [...pair];
+      newPair[1] = x;
+      setPair(newPair);
     }
   }
 
   return (
-    <main>
-      {allNames.map((name: string) => (
-        <button
-          key={name}
-          className={
-            !pair.includes(name)
-              ? ""
-              : second === ""
-              ? "bg-slate-400"
-              : !isMatch
-              ? "bg-red-400"
-              : "bg-green-400"
-          }
-          onClick={() => handleClick(name)}
-        >
-          {name}
+    <>
+      {names.map((x, i) => (
+        <button key={i} onClick={() => handleClick(x)}>
+          {x}
         </button>
       ))}
-    </main>
+    </>
   );
 }
