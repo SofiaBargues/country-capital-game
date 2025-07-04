@@ -11,7 +11,8 @@ export function Game() {
   const [pair, setPair] = useState(["", ""]);
 
   useEffect(() => {
-    if (pair[0] != "" && pair[1] != "") {
+    if (pair[0] === "" || pair[1] === "") return;
+    const timer = setTimeout(() => {
       if (isMatch(pair[0], pair[1])) {
         const first = pair[0];
         const second = pair[1];
@@ -20,7 +21,8 @@ export function Game() {
         setNames(newNames);
       }
       setPair(["", ""]);
-    }
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [names, pair]);
 
   function handleClick(x: string) {
@@ -28,17 +30,28 @@ export function Game() {
     if (pair[0] === "") {
       const newPair = [x, ""];
       setPair(newPair);
-    } else {
+    } else if (pair[1] === "") {
       const newPair = [...pair];
       newPair[1] = x;
       setPair(newPair);
     }
   }
 
+  const color =
+    pair[0] != "" && pair[1] === ""
+      ? "bg-slate-300"
+      : isMatch(pair[1], pair[0])
+      ? "bg-green-600"
+      : "bg-red-600";
+
   return (
     <>
       {names.map((x, i) => (
-        <button key={i} onClick={() => handleClick(x)}>
+        <button
+          className={pair[0] === x || pair[1] === x ? color : ""}
+          key={i}
+          onClick={() => handleClick(x)}
+        >
           {x}
         </button>
       ))}
