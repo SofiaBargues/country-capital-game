@@ -40,10 +40,21 @@ export function Game() {
     }
   }
 
+  const color =
+    pair[0] != "" && pair[1] === ""
+      ? " border "
+      : pair[0] != "" && pair[1] != "" && isMatch([pair[0], pair[1]])
+      ? " bg-green-400"
+      : " bg-red-400";
+
   return (
     <>
       {names.map((x) => (
-        <button className="p-2" onClick={() => handleClick(x)} key={x}>
+        <button
+          className={"p-2 " + (x === pair[1] || x === pair[0] ? color : "")}
+          onClick={() => handleClick(x)}
+          key={x}
+        >
           {x}
         </button>
       ))}
