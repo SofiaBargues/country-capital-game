@@ -15,7 +15,8 @@ export function Game() {
 
   useEffect(() => {
     // console.log("hi");
-    if (pair[0] === "" || pair[1] === "") return;
+    // if (pair[0] === "" || pair[1] === "") return;
+  }, 2000);
     const pairMatch = setTimeout(() => {
       if (isMatch(pair)) {
         const newNames = [...names].filter((x) => x != pair[0] && x != pair[1]);
@@ -23,7 +24,6 @@ export function Game() {
         console.log(newNames);
       }
       setPair(["", ""]);
-    }, 2000);
     return () => clearTimeout(pairMatch);
   }, [pair, names]);
   // console.log(isMatch(pair), pair);

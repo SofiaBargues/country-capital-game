@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DATA from "./data";
 
 function isMatch(pair: string[]) {
@@ -15,8 +15,20 @@ export function Game() {
   console.log(pair);
   console.log(names);
 
+  useEffect(() => {
+    const newNames = setTimeout(() => {
+      if (pair[0] === "" && pair[1] === "") return;
+      if (isMatch([pair[0], pair[1]]) && pair[1] != "") {
+        const newNames = names.filter((x) => x != pair[1] && x != pair[0]);
+        setNames(newNames);
+        console.log(newNames);
+      }
+      setPair(["", ""]);
+    }, 1000);
+    return () => clearTimeout(newNames);
+  }, [names, pair]);
+
   function handleClick(name: string) {
-    // if (pair[0] === "" && pair[1] === "") return;
     if (pair[0] === "") {
       const newPair = [...pair];
       newPair[0] = name;
@@ -25,12 +37,6 @@ export function Game() {
       const newPair = [...pair];
       newPair[1] = name;
       setPair(newPair);
-      if (isMatch([pair[0], name]) && name != "") {
-        const newNames = names.filter((x) => x != name && x != pair[0]);
-        setNames(newNames);
-        console.log(newNames);
-      }
-      setPair(["", ""]);
     }
   }
 
