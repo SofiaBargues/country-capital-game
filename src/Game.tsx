@@ -17,12 +17,19 @@ export function Game() {
   console.log(names);
 
   useEffect(() => {
-    setTimeout(
-      () => console.log("hi"),
-
-      1000
-    );
-  }, [names]);
+    const timer = setTimeout(() => {
+      if (pair[1] === "" && pair[0] === "") return;
+      if (isMatch(pair)) {
+        const newNames = names.filter((x) => x != pair[0] && x != pair[1]);
+        setNames(newNames);
+      }
+      if (pair[1] != "" && pair[0] != "") {
+        setPair(["", ""]);
+      }
+      clearTimeout(timer);
+      // console.log("hi");
+    }, 1000);
+  }, [names, pair]);
 
   function handleClick(x: string) {
     if (pair[0] === "") {
@@ -33,18 +40,22 @@ export function Game() {
       const newPair = [...pair];
       newPair[1] = x;
       setPair(newPair);
-      if (isMatch(newPair)) {
-        const newNames = names.filter(
-          (x) => x != newPair[0] && x != newPair[1]
-        );
-        setNames(newNames);
-      }
-      setPair(["", ""]);
     }
   }
 
+  const color =
+    pair[0] != "" && pair[1] === ""
+      ? " border"
+      : isMatch(pair)
+      ? " bg-green-400"
+      : " bg-red-400";
+
   return names.map((x) => (
-    <button onClick={() => handleClick(x)} key={x} className="p-2">
+    <button
+      onClick={() => handleClick(x)}
+      key={x}
+      className={"p-2" + (pair[0] === x || pair[1] === x ? color : "")}
+    >
       {x}
     </button>
   ));
