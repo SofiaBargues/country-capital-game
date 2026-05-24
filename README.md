@@ -1,30 +1,52 @@
-# React + TypeScript + Vite
+## Country Capital Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Build a React component that renders a country-capital matching game.
 
-Currently, two official plugins are available:
+### Objective
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The goal is to match each country with its correct capital.
 
-## Expanding the ESLint configuration
+### Component API
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Create a component called `Game` that receives a `data` object as a prop.
 
-- Configure the top-level `parserOptions` property like this:
+Each key in the object represents a country, and each value represents its capital.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```jsx
+const DATA = {
+  India: "Delhi",
+  Russia: "Moscow",
+  China: "Beijing",
+};
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Example usage:
+
+```jsx
+<Game data={DATA} />
+```
+
+### Requirements
+
+- Render all countries and capitals on the screen.
+- Countries and capitals must appear in random order.
+- Each option should be selectable.
+- The user can select up to 2 options at a time.
+- The default border color of each option should be `#414141`.
+- When an option is selected, its border color should change to `blue`.
+- If the selected country and capital are a correct match:
+  - Change both selected option borders to `#66cc99`.
+  - Remove both options from the screen after `1000ms`.
+- If the selected country and capital are not a correct match:
+  - Change both selected option borders to `red`.
+  - Reset both options after `1000ms`.
+- When there are no options left, display the message:
+
+```txt
+Congratulations
+```
+
+### Notes
+
+- The game should work with any valid country-capital object passed through the `data` prop.
+- Do not hardcode the countries or capitals inside the component.
